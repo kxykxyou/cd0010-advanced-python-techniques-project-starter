@@ -17,6 +17,7 @@ iterator.
 You'll edit this file in Tasks 3a and 3c.
 """
 import operator
+import datetime
 
 
 class UnsupportedCriterionError(NotImplementedError):
@@ -38,6 +39,7 @@ class AttributeFilter:
     Concrete subclasses can override the `get` classmethod to provide custom
     behavior to fetch a desired attribute from the given `CloseApproach`.
     """
+
     def __init__(self, op, value):
         """Construct a new `AttributeFilter` from an binary predicate and a reference value.
 
@@ -52,9 +54,9 @@ class AttributeFilter:
         self.op = op
         self.value = value
 
-    def __call__(self, approach):
+    def __call__(self, attr):
         """Invoke `self(approach)`."""
-        return self.op(self.get(approach), self.value)
+        return self.op(attr, self.value)
 
     @classmethod
     def get(cls, approach):
@@ -108,8 +110,33 @@ def create_filters(
     :param hazardous: Whether the NEO of a matching `CloseApproach` is potentially hazardous.
     :return: A collection of filters for use with `query`.
     """
-    # TODO: Decide how you will represent your filters.
-    return ()
+
+    filter_not_none = {filter_name: value for filter_name,
+                       value in locals().items() if value != None}
+    filter_collections = {}
+    for filter_name, value in filter_not_none.items():
+        if filter_name == 'date':
+            # date_time = datetime.datetime.strptime(value, "%Y-%m-%d")
+            filter_collections[filter_name] = AttributeFilter(
+                operator.eq, value)
+        elif filter_name == 'start_date':
+            # date_time = datetime.datetime.strptime(value, "%Y-%m-%d")
+            filter_collections[filter_name] = AttributeFilter(
+                operator.ge, value)
+        elif filter_name == 'end_date':
+            # date_time = datetime.datetime.strptime(value, "%Y-%m-%d")
+            filter_collections[filter_name] = AttributeFilter(
+                operator.le, value)
+        elif 'min' in filter_name:
+            filter_collections[filter_name] = AttributeFilter(
+                operator.ge, value)
+        elif 'max' in filter_name:
+            filter_collections[filter_name] = AttributeFilter(
+                operator.le, value)
+        else:
+            filter_collections[filter_name] = AttributeFilter(
+                operator.eq, value)
+    return filter_collections
 
 
 def limit(iterator, n=None):
@@ -121,5 +148,17 @@ def limit(iterator, n=None):
     :param n: The maximum number of values to produce.
     :yield: The first (at most) `n` values from the iterator.
     """
-    # TODO: Produce at most `n` values from the given iterator.
-    return iterator
+
+    if n == None or n == 0:
+        return iterator
+    else:
+        iterator = iter(iterator)
+        results = []
+        count = 0
+        try:
+            for _ in range(n):
+                results.append(next(iterator))
+        except:
+            pass
+        finally:
+            return results

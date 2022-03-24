@@ -419,7 +419,7 @@ Upon starting, the project contains several files and folders to help you get up
 Let's take a closer look at the purpose of each of these files and folders:
 
 - `main.py`: The main Python script that wraps the command-line tool, orchestrates the data pipeline by invoking the functions and classes that you'll write. **You will not need to modify this file.**
-- `models.py`: In this file, you'll define Python objects to represent a `NearEarthObject` and a `CloseApproach`. These objects will have a few attributes, a human-readable string representatino, and perhaps a property or a method here or there.
+- `models.py`: In this file, you'll define Python objects to represent a `NearEarthObject` and a `CloseApproach`. These objects will have a few attributes, a human-readable string representation, and perhaps a property or a method here or there.
 - `extract.py`: In this file, you'll write functions to read information from data files, creating `NearEarthObject`s and `CloseApproaches` from the data.
 - `database.py`: In this file, you'll define an `NEODatabase` class to encapsulate the entire data set (connecting NEOs and close approaches) and write methods to get NEOs by primary designation and by name, as well as to query the dataset with a collection of user-specified filters to generate an iterable stream of matching results.
 - `filters.py`: In this file, you'll create a plethora of filters to be used in conjuction with the `NEODatabase` to query for a stream of matching close approaches. You'll also write a utility function to limit the number of results produced from a stream.
@@ -633,7 +633,7 @@ def load_approaches(cad_json_path):
     return a collection of `CloseApproach` instances.
 ```
 
-The `neo_csv_path` and `cad_json_path` arguments are Path-like objects corresponding either to the default `data/neos.csv` and `data/cad.json` or to some alternate location specifed by the user at the command line. You can `open(neo_csv_path)` or `open(cad_json_path)` as usual.
+The `neo_csv_path` and `cad_json_path` arguments are Path-like objects corresponding either to the default `data/neos.csv` and `data/cad.json` or to some alternate location specified by the user at the command line. You can `open(neo_csv_path)` or `open(cad_json_path)` as usual.
 
 In this module, you'll have to use the built-in `csv` and `json` modules. You'll also need to rely on the `NearEarthObject` and `CloseApproach` classes you defined in Task 1, which you could end up adapting if needed.
 

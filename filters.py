@@ -18,6 +18,7 @@ You'll edit this file in Tasks 3a and 3c.
 """
 import operator
 import datetime
+from itertools import islice
 
 
 class UnsupportedCriterionError(NotImplementedError):
@@ -153,12 +154,4 @@ def limit(iterator, n=None):
         return iterator
     else:
         iterator = iter(iterator)
-        results = []
-        count = 0
-        try:
-            for _ in range(n):
-                results.append(next(iterator))
-        except:
-            pass
-        finally:
-            return results
+        return tuple(islice(iterator, n))
